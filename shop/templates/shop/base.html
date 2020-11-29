@@ -1,0 +1,14 @@
+<html>
+<head>
+  <title>Acme Shopping </title>
+</head>
+<body>
+<p><a href = "{% url 'customer_list' %}">Customers</a> | 
+    <a href = "{% url 'order_list' %}">Orders</a> | 
+    <a href = "{% url 'product_list' %}">Products</a> </p>
+
+    {% block content %}
+    {% endblock %}
+
+</body>
+</html>

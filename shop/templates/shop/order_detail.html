@@ -1,0 +1,11 @@
+{% extends 'shop/base.html' %}
+{% block content %}
+    <h1>Acme Shopping: Order Details</h1>
+    
+    <p>Order: 
+      This is order {{ order.id }} for
+       {{order.customer.name}}. The order was placed on: {{ order.created_date }} 
+   </p>
+  <p>Modify the method to also supply the line items in the order</p>
+   
+    {% endblock %}

@@ -1,0 +1,10 @@
+{% extends 'shop/base.html' %}
+{% block content %}
+    <h1>Acme Shopping: Product Details</h1>
+    
+    <p>Product {{ product.id }}: 
+      This is product {{ product.name }} which costs
+      {{product.price}}. The product was added on: {{ product.created_date }} 
+   </p>
+   
+    {% endblock %}

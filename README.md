@@ -27,4 +27,25 @@ We can now add in some random content for the shopping application using the Fak
 
         pip install Faker
 
-Now we can set about changing the nouns, adjectives and other parts of mystory with values from Faker. Go to https://faker.readthedocs.io/en/stable/providers.html and look through the options for Standard Providers to see if you want to change any details in values used in setup_db.py.
+Now we can use Faker to generate customer and product details in the 'shop/management/commands/populate_tables.py' file. Go to https://faker.readthedocs.io/en/stable/providers.html and look through the options for Standard Providers to see if you want to change any details in values used.
+
+You should now be able to populate the tables with the command:
+
+        python3 manage.py populate_tables
+
+Then you can start the server to see it running. 
+
+##  Doing the Work
+
+Work through the three rounds with a partner, or on your own, depending upon your circumstances. Each round should be twelve minutes, followed by a discussion of where you are and what has been working, as well as, what you're working on next.
+
+You may want to refer to the shop/models.py file to understand the database schema before you get started. Some of you might even want to diagram the schema. 
+
+You might also want to spend a few minutes at the start of each round planning what you might want to do.
+
+You'll see that this version works with the objects in the shop/models.py file to manipulate the data we display on the page. This means we've mostly abstracted away the SQL, and are working with objects for our queries and the dislay of results.
+
+1. Round one should be fixing the order_detail.html page to show names of items and customers, who placed the order. If you have time, then you can also fix the customer_details.html page to show the customer's orders, and let them click through to the order_details.html page.
+2. Round two should be creating a 'dashboard' page to show the total value of orders placed by customers.
+3. Round three is making round two work when you scale up the database by changing the numbers in the loops for the hop/management/commands/populate_tables.py file to work with 50 customers and orders of 10 items per customer.
+

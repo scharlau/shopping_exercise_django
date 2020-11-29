@@ -47,7 +47,7 @@ class Command(BaseCommand):
         for i in range(10):
             random_id = random.randint(1,9)
             cart = Cart.objects.create(
-            product_id = products[random_id],
+            product = products[random_id],
             quantity = random.randrange(1,42),
             )
             cart.save()
@@ -57,7 +57,7 @@ class Command(BaseCommand):
         for customer in customers:  
             for i in range(3):
                 order = Order.objects.create(
-                customer_id = customer,
+                customer = customer,
                 )
                 order.save()
                
@@ -68,9 +68,9 @@ class Command(BaseCommand):
             for cart in carts:
                 line_item = LineItem.objects.create(
                 quantity = cart.quantity,
-                product_id = cart.product_id,
-                cart_id = cart,
-                order_id = order,
+                product = cart.product,
+                cart = cart,
+                order = order,
                 )
                 line_item.save()
         

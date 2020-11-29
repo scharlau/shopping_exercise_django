@@ -1,0 +1,12 @@
+  {% extends 'shop/base.html' %}
+  {% block content %}
+    <h1>Product List</h1>
+    
+    {% for product in products %}
+    <p><b> <a href="{% url 'product_detail' id=product.id %}">{{product.name }}</a></b>
+      This is product {{ product.id }} which costs
+       {{product.price}}. The product was added on: {{ product.created_date }} 
+    </p>
+    {% endfor %}
+
+    {% endblock %}

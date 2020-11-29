@@ -1,0 +1,13 @@
+  {% extends 'shop/base.html' %}
+  {% block content %}
+    <h1>Customer List</h1>
+    
+    {% for customer in customers %}
+    <p><b> <a href="{% url 'customer_detail' id=customer.id %}">{{customer.name }}</a></b>
+      This is {{ customer.name }} who lives at 
+       {{customer.address}}. You can reach them at {{ customer.email }} 
+    </p>
+    {% endfor %}
+
+
+{% endblock %}
