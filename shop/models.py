@@ -9,7 +9,7 @@ class Cart(models.Model):
     created_date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f'{self.product_id},{self.quantity},{self.created_date}'
+        return f'{self.product},{self.quantity},{self.created_date}'
 
 class Customer(models.Model):
     name = models.TextField()
@@ -28,14 +28,14 @@ class LineItem(models.Model):
     created_date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f'{self.quantity},{self.product_id},{self.cart_id},{self.order_id},{self.created_date}'
+        return f'{self.quantity},{self.product},{self.cart},{self.order},{self.created_date}'
 
 class Order(models.Model):
     customer = models.ForeignKey('shop.Customer', on_delete=models.CASCADE)
     created_date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f'{self.customer_id},{self.created_date}'
+        return f'{self.customer},{self.created_date}'
 
 class Product(models.Model):
     name = models.TextField()
