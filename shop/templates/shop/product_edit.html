@@ -1,0 +1,10 @@
+{% extends 'shop/base.html' %}
+{% block content %}
+    <h1>Acme Shopping: Product Edit</h1>
+    <p>Product:
+    <form method="POST"> {% csrf_token %}
+      {{ form.as_p}}
+      <button type="submit">Save</button>
+   </p>
+</form>
+    {% endblock %}

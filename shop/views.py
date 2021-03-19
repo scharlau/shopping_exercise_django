@@ -1,5 +1,7 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import redirect, render, get_object_or_404
+from django.utils import timezone
 from .models import Customer, Order, Product
+from .forms import ProductForm
 
 # Create your views here.
 def customer_list(request):
@@ -25,3 +27,33 @@ def product_list(request):
 def product_detail(request, id):
     product = get_object_or_404(Product, id=id)
     return render(request, 'shop/product_detail.html', {'product' : product})
+
+def product_new(request):
+    if request.method=="POST":
+        form = ProductForm(request.POST)
+        if form.is_valid():
+            product = form.save(commit=False)
+            product.created_date = timezone.now()
+            product.save()
+            return redirect('product_detail', id=product.id)
+    else:
+        form = ProductForm()
+    return render(request, 'shop/product_edit.html', {'form': form})
+
+def product_edit(request, id):
+    product = get_object_or_404(Product, id=id)
+    if request.method=="POST":
+        form = ProductForm(request.POST, instance=product)
+        if form.is_valid():
+            product = form.save(commit=False)
+            product.created_date = timezone.now()
+            product.save()
+            return redirect('product_detail', id=product.id)
+    else:
+        form = ProductForm(instance=product)
+    return render(request, 'shop/product_edit.html', {'form': form})
+
+def product_delete(request, id):
+    product = get_object_or_404(Product, id=id)
+    product.delete()
+    return redirect('product_list')

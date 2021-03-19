@@ -1,7 +1,7 @@
   {% extends 'shop/base.html' %}
   {% block content %}
     <h1>Product List</h1>
-    
+    <p><a href="{% url 'product_new' %}">Add a new product</a></p>
     {% for product in products %}
     <p><b> <a href="{% url 'product_detail' id=product.id %}">{{product.name }}</a></b>
       This is product {{ product.id }} which costs

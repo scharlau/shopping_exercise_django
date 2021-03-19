@@ -2,9 +2,10 @@
 {% block content %}
     <h1>Acme Shopping: Product Details</h1>
     
-    <p>Product {{ product.id }}: 
+    <p>Product {{ product.id }}: <a href="{% url 'product_edit' id=product.id %}">Edit</a>
       This is product {{ product.name }} which costs
       {{product.price}}. The product was added on: {{ product.created_date }} 
    </p>
-   
+   <p><a href="{% url 'product_delete' id=product.id %}">Delete the product</a></p>
     {% endblock %}
+    

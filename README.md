@@ -3,14 +3,14 @@ A Python Django driven shopping example for deliberate practice
 
 This is NOT a proper shopping site, but the back end of what one could be. It is missing the authentication and security aspects that you'd expect. The purpose of this is to let you explore how you retrieve and display the information that you want to show on the pages of the site.
 
-The goal of 'deliberate practice' is to think about how you'd solve this challenge, and to work at developing code to make this work. There is no single 'correct' version of this code. The purpose of the exercise it become familiar with different ways of making the application work. You should explore how this simple application is done in Rails so that you understand how variables in controllers are show up in the views you see in the browser.
+The goal of 'deliberate practice' is to think about how you'd solve this challenge, and to work at developing code to make this work. There is no single 'correct' version of this code. The purpose of the exercise it become familiar with different ways of making the application work. You should explore how this simple application is done in Django so that you understand how variables in views are show up in the templates you see in the browser.
 
 Under 'deliberate practice' we offer up the challenge, then think about options for developing a solution, and code for 12 minutes. After that we pause to discuss how people are approaching the problem, and what they're trying to do. This should be repeated three times and then wrapped up with time for people to express what they found most useful during the session. This should take an hour.
 
 You can clone the repository for this application, and then add the required libraries, plus set up your environment. Start by cloning this repo to your own devise, using either the command line, or download it as zip file. Then open a terminal in the app's directory and use the commands below to get started.
 
 ## Set up your environment
- We can start developing our application to display the data. Create a new project folder called 'polar_bears' and then cd into the folder via the terminal and execute these commands:
+ We can start developing our application to display the data. Create a new project folder called 'shopping' and then cd into the folder via the terminal and execute these commands:
 
         pyenv local 3.7.0 # this sets the local version of python to 3.7.0
         python3 -m venv .venv # this creates the virtual environment for you
@@ -44,6 +44,8 @@ You may want to refer to the shop/models.py file to understand the database sche
 You might also want to spend a few minutes at the start of each round planning what you might want to do.
 
 You'll see that this version works with the objects in the shop/models.py file to manipulate the data we display on the page. This means we've mostly abstracted away the SQL, and are working with objects for our queries and the dislay of results.
+
+There are some forms here for the products. These add the basic CRUD methods (create, read, update and delete). You could add similar ones for other objects.
 
 1. Round one should be fixing the order_detail.html page to show names of items and customers, who placed the order. If you have time, then you can also fix the customer_details.html page to show the customer's orders, and let them click through to the order_details.html page.
 2. Round two should be creating a 'dashboard' page to show the total value of orders placed by customers.
