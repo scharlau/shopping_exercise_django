@@ -4,7 +4,7 @@
     <p>Product:
     <form method="POST"> {% csrf_token %}
       {{ form.as_p}}
-      <button type="submit">Save</button>
+      <button type="submit" name="submit">Save</button>
    </p>
 </form>
     {% endblock %}

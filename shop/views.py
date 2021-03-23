@@ -24,7 +24,8 @@ def product_list(request):
     products = Product.objects.all()
     deleted = request.session.get('deleted', 'empty')
     request.session['deleted'] = 'hello'
-    return render(request, 'shop/product_list.html', {'products' : products, 'deleted': deleted})
+    
+    return render(request, 'shop/product_list.html', {'products' : products, 'deleted': deleted })
 
 def product_detail(request, id):
     product = get_object_or_404(Product, id=id)
@@ -57,10 +58,7 @@ def product_edit(request, id):
 
 def product_delete(request, id):
     product = get_object_or_404(Product, id=id)
-    # deleted = request.session.get('deleted', 'empty')
-    # request.session['deleted'] = product.name
-    # context = {
-    #     'deleted': deleted,
-    # }
+    deleted = request.session.get('deleted', 'empty')
+    request.session['deleted'] = product.name
     product.delete()
-    return redirect('product_list')
+    return redirect('product_list' )

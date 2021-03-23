@@ -47,7 +47,21 @@ You'll see that this version works with the objects in the shop/models.py file t
 
 There are some forms here for the products. These add the basic CRUD methods (create, read, update and delete). You could add similar ones for other objects.
 
+## Behave added for BDD. 
+
+This adds behave_fixtures.py, driver directory, and features, with steps directory.
+We can now add the testing library Behave, along with Selenium for and the appropriate web drivers for your system, which you can find at https://selenium-python.readthedocs.io/installation.html#drivers 
+
+If you're on a Mac, then you will need to remove the chrome driver from quarantine with the command
+
+        xattr -d com.apple.quarantine <name-of-executable>
+
+as found and detailed at https://stackoverflow.com/questions/60362018/macos-catalinav-10-15-3-error-chromedriver-cannot-be-opened-because-the-de 
+
+You might want to look at the documentation for Behave https://behave.readthedocs.io/en/latest/ 
+You should look at Selenium documentation for [navigating web pages] (https://www.selenium.dev/selenium/docs/api/py/webdriver_remote/selenium.webdriver.remote.webdriver.html#module-selenium.webdriver.remote.webdriver)
+
+
 1. Round one should be fixing the order_detail.html page to show names of items and customers, who placed the order. If you have time, then you can also fix the customer_details.html page to show the customer's orders, and let them click through to the order_details.html page.
 2. Round two should be creating a 'dashboard' page to show the total value of orders placed by customers.
 3. Round three is making round two work when you scale up the database by changing the numbers in the loops for the hop/management/commands/populate_tables.py file to work with 50 customers and orders of 10 items per customer.
-

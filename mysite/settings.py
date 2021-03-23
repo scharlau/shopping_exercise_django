@@ -68,6 +68,8 @@ TEMPLATES = [
     },
 ]
 
+# TEST_RUNNER = 'django_behave.runner.DjangoBehaveTestSuiteRunner'
+
 WSGI_APPLICATION = 'mysite.wsgi.application'
 
 
