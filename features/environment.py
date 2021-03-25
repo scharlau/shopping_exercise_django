@@ -1,4 +1,3 @@
-# FILE: features/environment.py
 from behave import fixture, use_fixture
 import os, urllib
 import django
@@ -20,7 +19,7 @@ CHROME_DRIVER = os.path.join('driver/chromedriver')
 chrome_options = Options()
 # comment out the line below if you want to see the browser launch for tests
 # possibly add time.sleep() if required
-# chrome_options.add_argument("--headless")
+chrome_options.add_argument("--headless")
 chrome_options.add_argument('--no-proxy-server')
 chrome_options.add_argument("--proxy-server='direct://'")
 chrome_options.add_argument("--proxy-bypass-list=*")
