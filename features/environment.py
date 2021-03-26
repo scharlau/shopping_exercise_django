@@ -33,7 +33,6 @@ def before_scenario(context, scenario):
     context.test = TestCase()
     context.test.setUpClass()
     use_fixture(django_test_case, context)
-#context.base_url = self.live_server_url
 
 def after_scenario(context, scenario):
     context.test.tearDownClass()
