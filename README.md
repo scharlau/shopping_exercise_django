@@ -50,7 +50,7 @@ There are some forms here for the products. These add the basic CRUD methods (cr
 ## Behave added for BDD
 
 This adds driver directory, and features, with steps directory.
-We can now add the testing library Behave, along with Selenium for and the appropriate web drivers for your system, which you can find at https://selenium-python.readthedocs.io/installation.html#drivers 
+We can now add the testing library Behave, along with Selenium for and the appropriate web drivers for your system, which you can find at https://selenium-python.readthedocs.io/installation.html#drivers Then put the binary at driver/chromedriver in your app, as you see in the repo. 
 
 If you're on a Mac, then you will need to remove the chrome driver from quarantine with the command
 
@@ -60,6 +60,18 @@ as found and detailed at https://stackoverflow.com/questions/60362018/macos-cata
 
 You might want to look at the documentation for Behave https://behave.readthedocs.io/en/latest/ 
 You should look at Selenium documentation for [navigating web pages] (https://www.selenium.dev/selenium/docs/api/py/webdriver_remote/selenium.webdriver.remote.webdriver.html#module-selenium.webdriver.remote.webdriver)
+
+### Codio options
+If doing this on Codio, then you can add the chromedriver as follows, first before downloading the driver:
+Open a terminal and install the chromium browser with the command:
+
+   sudo apt-get install -y chromium-browser
+
+This will install the browser plus its required libraries. If that still shows missing libraries, then use this command for the rest. Hopefully, they were installed with the browser, but they might not have been.
+
+        sudo apt-get install -y libglib2.0-0 libnss3 libgconf-2-4 libfontconfig1
+
+This should now give you chrome. You now can look over the install log in the terminal to see which version number of the chromedriver that you need to install in the driver folder.
 
 ### The Exercises
 
