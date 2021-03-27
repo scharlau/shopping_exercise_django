@@ -65,7 +65,7 @@ You should look at Selenium documentation for [navigating web pages] (https://ww
 If doing this on Codio, then you can add the chromedriver as follows, first before downloading the driver:
 Open a terminal and install the chromium browser with the command:
 
-   sudo apt-get install -y chromium-browser
+        sudo apt-get install -y chromium-browser
 
 This will install the browser plus its required libraries. If that still shows missing libraries, then use this command for the rest. Hopefully, they were installed with the browser, but they might not have been.
 
