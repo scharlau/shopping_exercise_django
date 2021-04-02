@@ -1,15 +1,17 @@
 from django.shortcuts import redirect, render, get_object_or_404
 from django.utils import timezone
+from django.contrib.auth.models import User
 from .models import Customer, Order, Product
 from .forms import ProductForm
 
 # Create your views here.
+
 def customer_list(request):
-    customers = Customer.objects.all()
-    return render(request, 'shop/customer_list.html', {'customers' : customers})
+    users = User.objects.all()
+    return render(request, 'shop/customer_list.html', {'users' : users})
 
 def customer_detail(request, id):
-    customer = get_object_or_404(Customer, id=id)
+    customer = get_object_or_404(Customer, id=customer.id)
     return render(request, 'shop/customer_detail.html', {'customer' : customer})
 
 def order_list(request):

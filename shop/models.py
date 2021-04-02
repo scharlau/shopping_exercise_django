@@ -13,6 +13,7 @@ class Cart(models.Model):
 
     def __str__(self):
         return f'{self.product},{self.quantity},{self.created_date}'
+
 # switch customer to user so that we can use Django's componenents
 # https://blog.crunchydata.com/blog/extending-djangos-user-model-with-onetoonefield 
 # https://simpleisbetterthancomplex.com/tutorial/2016/07/22/how-to-extend-django-user-model.html#onetoone
@@ -21,8 +22,10 @@ class Customer(models.Model):
     address = models.TextField()
     created_date = models.DateTimeField(auto_now_add=True)
 
+    def __str__(self):
+        return f'{self.user.email}, {self.customer.address}'
+
     class Meta:
-       # managed = False
         db_table = 'customer'
 
     @receiver(post_save, sender=User)
@@ -33,9 +36,6 @@ class Customer(models.Model):
     @receiver(post_save, sender=User)
     def save_user_profile(sender, instance, **kwargs):
         instance.customer.save()
-
-    def __str__(self):
-        return f'{self.name},{self.email},{self.address},{self.created_date}'
 
 class LineItem(models.Model):
     quantity = models.IntegerField()

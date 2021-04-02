@@ -5,7 +5,8 @@
 <body>
 <p><a href = "{% url 'customer_list' %}">Customers</a> | 
     <a href = "{% url 'order_list' %}">Orders</a> | 
-    <a href = "{% url 'product_list' %}">Products</a> </p>
+    <a href = "{% url 'product_list' %}">Products</a> |
+    <a href = "{% url 'login' %}">Log In</a> </p>
 
     {% block content %}
     {% endblock %}
