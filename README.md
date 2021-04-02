@@ -73,6 +73,12 @@ This will install the browser plus its required libraries. If that still shows m
 
 This should now give you chrome. You now can look over the install log in the terminal to see which version number of the chromedriver that you need to install in the driver folder.
 
+### Customers and Staff members
+Build on the django User model detailed at https://docs.djangoproject.com/en/3.1/ref/contrib/auth/#django.contrib.auth.models.User which will be all members, and 'staff' will have 'is_staff' set to True. See also https://docs.djangoproject.com/en/3.1/topics/auth/default/ for details.
+
+
+
+
 ### The Exercises
 
 1. Round one should be fixing the order_detail.html page to show names of items and customers, who placed the order. If you have time, then you can also fix the customer_details.html page to show the customer's orders, and let them click through to the order_details.html page.

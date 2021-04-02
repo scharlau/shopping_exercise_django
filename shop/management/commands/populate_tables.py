@@ -5,6 +5,7 @@ import random
 import decimal
 from datetime import datetime
 from django.db import models
+from django.contrib.auth.models import User
 from django.core.management.base import BaseCommand, CommandError
 from faker import Faker
 
@@ -21,17 +22,25 @@ class Command(BaseCommand):
         Order.objects.all().delete()
         Product.objects.all().delete()
         Customer.objects.all().delete()
+        User.objects.all().delete()
         print("tables dropped successfully")
 
         fake = Faker()
 
         # create some customers
         for i in range(10):
-            customer = Customer.objects.create(
-            name = fake.name(),
-            email = fake.ascii_free_email(),
+            first_name = fake.first_name(),
+            last_name = fake.last_name(),
+            username = first_name + last_name,
             address = fake.address(),
-            )
+            user = User.objects.create_user(
+            username = username,
+            first_name = first_name,
+            last_name = last_name,
+            email = fake.ascii_free_email(), 
+            password = 'p@ssw0rd')
+            customer = Customer.objects.get(user = user)
+            customer.address=address
             customer.save()
 
         # create some products
