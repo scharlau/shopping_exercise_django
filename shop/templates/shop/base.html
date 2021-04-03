@@ -6,7 +6,11 @@
 <p><a href = "{% url 'customer_list' %}">Customers</a> | 
     <a href = "{% url 'order_list' %}">Orders</a> | 
     <a href = "{% url 'product_list' %}">Products</a> |
+    {% if user.is_authenticated %}
+    <a href = "{% url 'logout' %}">Log Out</a> </p>
+    {% else %}
     <a href = "{% url 'login' %}">Log In</a> </p>
+    {% endif%}
 
     {% block content %}
     {% endblock %}

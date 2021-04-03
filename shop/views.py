@@ -1,18 +1,36 @@
 from django.shortcuts import redirect, render, get_object_or_404
 from django.utils import timezone
+from django.contrib.auth import login, authenticate
 from django.contrib.auth.models import User
+from django.contrib.auth.forms import UserCreationForm
 from .models import Customer, Order, Product
-from .forms import ProductForm
+from .forms import ProductForm, SignUpForm
 
 # Create your views here.
+
+def signup(request):
+    form = SignUpForm(request.POST)
+    if form.is_valid():
+        user = form.save()
+        user.refresh_from_db()
+        user.customer.first_name = form.cleaned_data.get('first_name')
+        user.customer.last_name = form.cleaned_data.get('last_name')
+        user.customer.address = form.cleaned_data.get('address')
+        user.save()
+        username = form.cleaned_data.get('username')
+        password = form.cleaned_data.get('password1')
+        user = authenticate(username=username, password= password)
+        login(request, user)
+        return redirect('/')
+    return render(request, 'signup.html', {'form': form})
 
 def customer_list(request):
     users = User.objects.all()
     return render(request, 'shop/customer_list.html', {'users' : users})
 
 def customer_detail(request, id):
-    customer = get_object_or_404(Customer, id=customer.id)
-    return render(request, 'shop/customer_detail.html', {'customer' : customer})
+    user = get_object_or_404(User, id=id)
+    return render(request, 'shop/customer_detail.html', {'user' : user})
 
 def order_list(request):
     orders = Order.objects.all()

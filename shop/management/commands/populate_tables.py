@@ -32,7 +32,6 @@ class Command(BaseCommand):
             first_name = fake.first_name(),
             last_name = fake.last_name(),
             username = first_name + last_name,
-            address = fake.address(),
             user = User.objects.create_user(
             username = username,
             first_name = first_name,
@@ -40,7 +39,7 @@ class Command(BaseCommand):
             email = fake.ascii_free_email(), 
             password = 'p@ssw0rd')
             customer = Customer.objects.get(user = user)
-            customer.address=address
+            customer.address = fake.address(),
             customer.save()
 
         # create some products

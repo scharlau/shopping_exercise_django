@@ -3,8 +3,8 @@
     <h1>Acme Shopping: Customer Details</h1>
     
     <p>Customer: 
-      This is {{ customer.last_name }} who lives at 
-      {{customer.address}}. You can reach them at {{ customer.email }} 
+      This is {{ user.last_name }} {{ user.first_name }}who lives at 
+      {{user.customer.address}}. You can reach them at {{ user.email }} 
    </p>
   <p>Modify the method to also supply the customer's orders</p>
    

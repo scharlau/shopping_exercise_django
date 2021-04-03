@@ -3,11 +3,10 @@
     <h1>Customer List</h1>
     
     {% for user in users %}
-    <p><b> <a href="{% url 'customer_detail' id=user.pk %}"> {{user.first_name }} {{user.last_name }} </a></b>
+    <p><b> <a href="{% url 'customer_detail' id=user.pk %}"> {{user.first_name }}, {{user.last_name }} </a></b>
       This is {{ user.username }} who lives at 
        {{ user.customer.address }}. You can reach them at {{ user.email }} 
     </p>
     {% endfor %}
-
 
 {% endblock %}

@@ -1,0 +1,31 @@
+{% extends 'shop/base.html' %}
+{% block content %}
+    <h1>Acme Shopping: Login</h1>
+    {% if form.errors %}
+       <p>Your username and password didn't match. Please try again.</p>
+    {% endif %}
+{% if next %}
+  {% if user.is_authenticated %}
+  <p>Your account doesn't have access to this page. To proceed,
+    please login with an account that has access.</p>
+  {% else %}
+    <p>Please login, or <a href = "{% url 'signup' %}">Register</a>to see this page.</p>
+  {% endif %}
+{% endif %}
+
+<p> <a href = "{% url 'signup' %}">Register</a> for an account</p>
+  <form method="POST" action="{% url 'login' %}"> 
+    {% csrf_token %}
+    <p>
+      {{ form.username.label_tag }}
+      {{ form.username }}
+    </p>
+    <p>
+      {{form.password.label_tag }}
+      {{form.password }}
+    </p>
+      <input type="submit" name="Login"/>
+      <input type="hidden" name='next' value="{{ next}}"/>
+   </p>
+</form>
+    {% endblock %}
