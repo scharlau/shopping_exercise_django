@@ -99,6 +99,7 @@ This still needs more work. There is currently no way to set up admin users, oth
 A better version would only show the products until an admin logs in, and then they could see the rest.
 
 The permissions and authentication needs work to enable the above. From there more could be done. 
+Oh, and the stuff from faker adds extra characters, which is a pain. Those need to be cleaned up.
 
 
 ### The Exercises
