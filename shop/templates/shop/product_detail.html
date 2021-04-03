@@ -6,6 +6,15 @@
       This is product {{ product.name }} which costs
       {{product.price}}. The product was added on: {{ product.created_date }} 
    </p>
+   <p>
+    <form action="/product/buy/" method="post">
+       {% csrf_token %}
+       <p>Buy one for yourself</p>
+       <input type='hidden' name='id' value="{{ product.id }}">
+       <input type="number" name="quantity">
+       <input type="submit" value="Purchase">
+       </form>
+       </p>
    <p><a href="{% url 'product_delete' id=product.id %}">Delete the product</a></p>
     {% endblock %}
     

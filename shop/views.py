@@ -6,7 +6,30 @@ from django.contrib.auth.forms import UserCreationForm
 from .models import Customer, Order, Product
 from .forms import ProductForm, SignUpForm
 
+
+class Basket:
+    # a data transfer object to shift items from cart to page
+    
+    def __init__(self, name, price, quantity):
+        self.name = name
+        self.price = price
+        self.quantity = quantity
+
 # Create your views here.
+
+# convenience method as used in several methods
+def get_basket(request):
+    basket = request.session.get('basket', [])
+    products = []
+    for item in basket:
+        product = Product.objects.get(id=item[0])
+        basket = Basket(product.name, product.price, item[1])
+        products.append(basket)
+    return products
+
+def basket(request):
+    products = get_basket(request)
+    return render(request, 'shop/basket.html', {'products': products})
 
 def signup(request):
     form = SignUpForm(request.POST)
@@ -40,8 +63,25 @@ def order_detail(request, id):
     order = get_object_or_404(Order, id=id)
     return render(request, 'shop/order_detail.html', {'order' : order})
 
+# clear basket and thank customer
+def payment(request):
+    request.session['basket'].clear()
+    request.session['deleted'] = 'thanks for your purchase'
+    return redirect('product_list' )
+
+def product_buy(request):
+    if request.method== "POST":
+        temp_id = int(request.POST.get('id',''))
+        quantity = int(request.POST.get('quantity', ''))
+        basket = request.session['basket']
+        basket.append([temp_id,quantity])
+        request.session['basket'] = basket
+    return redirect('product_list')
+
 def product_list(request):
     products = Product.objects.all()
+    basket = request.session.get('basket', [])
+    request.session['basket'] = basket 
     deleted = request.session.get('deleted', 'empty')
     request.session['deleted'] = 'hello'
     
@@ -82,3 +122,11 @@ def product_delete(request, id):
     request.session['deleted'] = product.name
     product.delete()
     return redirect('product_list' )
+
+def purchase(request):
+    products = get_basket(request)
+    total = 0
+    for product in products:
+        total += product.price * product.quantity
+
+    return render(request, 'shop/purchase.html', {'products': products, 'total': total})

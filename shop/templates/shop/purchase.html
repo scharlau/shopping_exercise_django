@@ -1,0 +1,21 @@
+{% extends 'shop/base.html' %}
+{% block content %}
+    <h1>Acme Shopping: Your Order</h1>
+    
+<h2>You have these in your basket:</h2>
+  {% for product in products %}
+ 
+<p>You put {{product.quantity }} of our <b> {{ product.name }} </b> which costs {{ product.price }} in your basket.</p>
+
+   {% endfor %}
+ <p>The total for all of this fun is: {{ total}}</p>
+   <p>
+    <form action="/payment/" method="post">
+       {% csrf_token %}
+       <p>Buy one for yourself</p>
+       <input type='text' name='payment' value="Card Type:">
+       <input type="number" name="total" value="Total Payment:">
+       <input type="submit" value="Payment">
+       </form>
+       </p>
+ {% endblock %}

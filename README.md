@@ -87,7 +87,10 @@ This changed the customer model so that it extended the main user model. This im
 
 The registration and login approaches were borrowed from https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/Authentication, which cover lots of useful materials.
 
+### The Payment System 
+This uses sessions to put items into a basket, which can be seen via 'Basket' link, and then shifted to 'Purchase' with user details. A value object holds items in basket for moving through to payments. After purchase the basket is cleared.
 
+A better version would allow customers to remove items from the basket, and to specify their shipping address.
 
 
 
