@@ -136,9 +136,12 @@ def product_delete(request, id):
     return redirect('product_list' )
 
 def purchase(request):
-    user = request.user
-    products = get_basket(request)
-    total = 0
-    for product in products:
-        total += product.price * product.quantity
-    return render(request, 'shop/purchase.html', {'products': products, 'user': user, 'total': total})
+    if request.user.is_authenticated:
+       user = request.user
+       products = get_basket(request)
+       total = 0
+       for product in products:
+           total += product.price * product.quantity
+       return render(request, 'shop/purchase.html', {'products': products, 'user': user, 'total': total})
+    else:
+        return redirect('login')
