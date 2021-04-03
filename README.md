@@ -92,8 +92,13 @@ This uses sessions to put items into a basket, which can be seen via 'Basket' li
 
 A better version would allow customers to remove items from the basket, and to specify their shipping address.
 
+The payment retrieves the logged in person's details for the form, and then creates an order.
 
+## There is still more to do with this
+This still needs more work. There is currently no way to set up admin users, other than using the admin system to change users to 'staff' who could then see a dashboard of orders, and not just anyone.
+A better version would only show the products until an admin logs in, and then they could see the rest.
 
+The permissions and authentication needs work to enable the above. From there more could be done.
 
 
 ### The Exercises

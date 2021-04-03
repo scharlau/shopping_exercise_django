@@ -3,14 +3,15 @@ from django.utils import timezone
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
-from .models import Customer, Order, Product
+from .models import Cart, Customer, LineItem, Order, Product
 from .forms import ProductForm, SignUpForm
 
 
 class Basket:
     # a data transfer object to shift items from cart to page
     
-    def __init__(self, name, price, quantity):
+    def __init__(self, id, name, price, quantity):
+        self.id = id
         self.name = name
         self.price = price
         self.quantity = quantity
@@ -23,7 +24,7 @@ def get_basket(request):
     products = []
     for item in basket:
         product = Product.objects.get(id=item[0])
-        basket = Basket(product.name, product.price, item[1])
+        basket = Basket(item[0], product.name, product.price, item[1])
         products.append(basket)
     return products
 
@@ -63,8 +64,19 @@ def order_detail(request, id):
     order = get_object_or_404(Order, id=id)
     return render(request, 'shop/order_detail.html', {'order' : order})
 
-# clear basket and thank customer
+# save order, clear basket and thank customer
 def payment(request):
+    products = get_basket(request)
+    user = request.user
+    order = Order.objects.create(customer=user.customer)
+    order.refresh_from_db()
+    for product in products:
+        product_item = get_object_or_404(Product, id=product.id)
+        cart = Cart.objects.create(product = product_item, quantity=product.quantity)
+        cart.refresh_from_db()
+        line_iten = LineItem.objects.create(quantity=product.quantity, product=product_item, 
+        cart=cart,  order = order)
+
     request.session['basket'].clear()
     request.session['deleted'] = 'thanks for your purchase'
     return redirect('product_list' )
@@ -124,9 +136,9 @@ def product_delete(request, id):
     return redirect('product_list' )
 
 def purchase(request):
+    user = request.user
     products = get_basket(request)
     total = 0
     for product in products:
         total += product.price * product.quantity
-
-    return render(request, 'shop/purchase.html', {'products': products, 'total': total})
+    return render(request, 'shop/purchase.html', {'products': products, 'user': user, 'total': total})
