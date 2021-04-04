@@ -98,7 +98,7 @@ The payment retrieves the logged in person's details for the form, and then crea
 This still needs more work. There is currently no way to set up admin users, other than using the admin system to change users to 'staff' who could then see a dashboard of orders, and not just anyone.
 A better version would only show the products until an admin logs in, and then they could see the rest.
 
-The permissions and authentication needs work to enable the above. From there more could be done. 
+The permissions and authentication needs work to enable the above. From there more could be done, using the is_staff boolean, or the is_suiperuser one detailed at https://docs.djangoproject.com/en/3.1/ref/contrib/auth/ to show a dashboard.
 Oh, and the stuff from faker adds extra characters, which is a pain. Those need to be cleaned up.
 
 
