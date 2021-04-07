@@ -56,13 +56,23 @@ def customer_detail(request, id):
     user = get_object_or_404(User, id=id)
     return render(request, 'shop/customer_detail.html', {'user' : user})
 
+def dashboard(request):
+    user = request.user
+    if user.is_authenticated & user.is_staff:
+        return render(request, 'shop/dashboard.html')
+    else:
+        return redirect('accounts/login.html')
+
 def order_list(request):
     orders = Order.objects.all()
     return render(request, 'shop/order_list.html', {'orders' : orders})
 
 def order_detail(request, id):
     order = get_object_or_404(Order, id=id)
-    return render(request, 'shop/order_detail.html', {'order' : order})
+    customer = order.customer
+    user = get_object_or_404(User, id=customer.pk)
+    line_items = LineItem.objects.filter(order_id=order.id)
+    return render(request, 'shop/order_detail.html', {'order' : order, 'user': user, 'line_items': line_items})
 
 # save order, clear basket and thank customer
 def payment(request):

@@ -83,7 +83,9 @@ In order to do this, the database needed to be migrated, and as it's using sqlit
 Build on the django User model detailed at https://docs.djangoproject.com/en/3.1/ref/contrib/auth/#django.contrib.auth.models.User which will be all members, and 'staff' will have 'is_staff' set to True. See also https://docs.djangoproject.com/en/3.1/topics/auth/default/ for details.
 The best explanation of this is at https://blog.crunchydata.com/blog/extending-djangos-user-model-with-onetoonefield while https://dev.to/coderasha/create-advanced-user-sign-up-view-in-django-step-by-step-k9m had more details on creating the signup form and details about integrating the user and customer models.
 
-This changed the customer model so that it extended the main user model. This impacted the way the model instances are created, and how they are retrieved for display. The fields used in the templates to display the list of customer, and their detail pages, also needed modification.
+This changed the customer model so that it extended the main user model. This impacted the way the model instances are created, and how they are retrieved for display. The fields used in the templates to display the list of customer, and their detail pages, also needed modification. 
+
+Changes were also made to settings.py in order to add details for the LOGIN_REDIRECT_URL = '/' and LOGOUT_REDIRECT_URL = '/' so that they wouldn't default to the one for admin. With this in place, then new login and logout templates could be used, and people would end up at a suitable page after the process.
 
 The registration and login approaches were borrowed from https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/Authentication, which cover lots of useful materials.
 
@@ -96,7 +98,7 @@ The payment retrieves the logged in person's details for the form, and then crea
 
 ## There is still more to do with this
 This still needs more work. There is currently no way to set up admin users, other than using the admin system to change users to 'staff' who could then see a dashboard of orders, and not just anyone.
-A better version would only show the products until an admin logs in, and then they could see the rest.
+A better version would only allow staff to remove and edit the products.
 
 The permissions and authentication needs work to enable the above. From there more could be done, using the is_staff boolean, or the is_suiperuser one detailed at https://docs.djangoproject.com/en/3.1/ref/contrib/auth/ to show a dashboard.
 Oh, and the stuff from faker adds extra characters, which is a pain. Those need to be cleaned up.

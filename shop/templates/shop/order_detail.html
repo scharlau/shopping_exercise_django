@@ -4,8 +4,14 @@
     
     <p>Order: 
       This is order {{ order.id }} for
-       {{order.customer.name}}. The order was placed on: {{ order.created_date }} 
+      {{user.first_name}} {{user.last_name}}. The order was placed on: {{ order.created_date }} 
    </p>
-  <p>Modify the method to also supply the line items in the order</p>
+  <p>The order includes these items:</p>
+  {% for line_item in line_items %}
+  <p>
+   Quantity: {{ line_item.quantity}}  Item: {{ line_item.product }}
+  </p>
+  
+  {% endfor %}
    
     {% endblock %}
