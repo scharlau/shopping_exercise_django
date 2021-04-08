@@ -1,13 +1,13 @@
 # A Shopping Exercise in Python with Django
 A Python Django driven shopping example for deliberate practice
 
-This is NOT a proper shopping site, but the back end of what one could be. It is missing the authentication and security aspects that you'd expect. The purpose of this is to let you explore how you retrieve and display the information that you want to show on the pages of the site.
+This is NOT a proper shopping site, but the back end of what one could be. It has some of the authentication and security aspects that you'd expect using what's available in Django. The current implementation probably needs more refinement, but works as a starting point for an example. The purpose of this is to let you explore how you retrieve and display the information that you want to show on the pages of the site.
 
 The goal of 'deliberate practice' is to think about how you'd solve this challenge, and to work at developing code to make this work. There is no single 'correct' version of this code. The purpose of the exercise it become familiar with different ways of making the application work. You should explore how this simple application is done in Django so that you understand how variables in views are show up in the templates you see in the browser.
 
 Under 'deliberate practice' we offer up the challenge, then think about options for developing a solution, and code for 12 minutes. After that we pause to discuss how people are approaching the problem, and what they're trying to do. This should be repeated three times and then wrapped up with time for people to express what they found most useful during the session. This should take an hour.
 
-You can clone the repository for this application, and then add the required libraries, plus set up your environment. Start by cloning this repo to your own devise, using either the command line, or download it as zip file. Then open a terminal in the app's directory and use the commands below to get started.
+You can clone the repository for this application, and then add the required libraries, plus set up your environment. Start by cloning this repo to your own device, using either the command line, or download it as zip file. Then open a terminal in the app's directory and use the commands below to get started.
 
 ## Set up your environment
  We can start developing our application to display the data. Create a new project folder called 'shopping' and then cd into the folder via the terminal and execute these commands:
@@ -47,8 +47,10 @@ You'll see that this version works with the objects in the shop/models.py file t
 
 There are some forms here for the products. These add the basic CRUD methods (create, read, update and delete). You could add similar ones for other objects.
 
-## Behave added for BDD
+# Updated Features
+Following the basic start of this repo, I saw the need to modify it for use to serve a few more situations. To that end it now also represents an example of working with BDD style testing using Behave, and there is a discussion about the changes made to enable authentication, which wasn't originally included.
 
+## Behave added for BDD
 This adds driver directory, and features, with steps directory.
 We can now add the testing library Behave, along with Selenium for and the appropriate web drivers for your system, which you can find at https://selenium-python.readthedocs.io/installation.html#drivers Then put the binary at driver/chromedriver in your app, as you see in the repo. 
 
@@ -61,7 +63,7 @@ as found and detailed at https://stackoverflow.com/questions/60362018/macos-cata
 You might want to look at the documentation for Behave https://behave.readthedocs.io/en/latest/ 
 You should look at Selenium documentation for [navigating web pages] (https://www.selenium.dev/selenium/docs/api/py/webdriver_remote/selenium.webdriver.remote.webdriver.html#module-selenium.webdriver.remote.webdriver)
 
-### Codio options
+#### Codio options for Behave
 If doing this on Codio, then you can add the chromedriver as follows, first before downloading the driver:
 Open a terminal and install the chromium browser with the command:
 
@@ -73,38 +75,33 @@ This will install the browser plus its required libraries. If that still shows m
 
 This should now give you chrome. You now can look over the install log in the terminal to see which version number of the chromedriver that you need to install in the driver folder.
 
-## Modifying the Example to Include Authentication
-The example would benefit from being more of a true e-commerce site. This meant making some changes as detailed below.
-
-#### Changing the database
-In order to do this, the database needed to be migrated, and as it's using sqlite3, it got in a tangle, The steps on how to reset migrations using scenario 1 at https://simpleisbetterthancomplex.com/tutorial/2016/07/26/how-to-reset-migrations.html along with documentation on the manage.py commands.
+## Changing the database
+In order to add authentication based on the built-in User model of DJango, the database needed to be migrated, and as it's using sqlite3, it got in a tangle, The steps on how to reset migrations using scenario 1 at https://simpleisbetterthancomplex.com/tutorial/2016/07/26/how-to-reset-migrations.html along with documentation on the manage.py commands. You can avoid this by setting up your application using the User model from the beginning as set our below.
 
 ### Customers and Staff members
 Build on the django User model detailed at https://docs.djangoproject.com/en/3.1/ref/contrib/auth/#django.contrib.auth.models.User which will be all members, and 'staff' will have 'is_staff' set to True. See also https://docs.djangoproject.com/en/3.1/topics/auth/default/ for details.
 The best explanation of this is at https://blog.crunchydata.com/blog/extending-djangos-user-model-with-onetoonefield while https://dev.to/coderasha/create-advanced-user-sign-up-view-in-django-step-by-step-k9m had more details on creating the signup form and details about integrating the user and customer models.
 
-This changed the customer model so that it extended the main user model. This impacted the way the model instances are created, and how they are retrieved for display. The fields used in the templates to display the list of customer, and their detail pages, also needed modification. 
+This changed the customer model so that it extended the main user model. This impacted the way the model instances are created, and how they are retrieved for display. The fields used in the templates to display the list of customer, and their detail pages, also needed modification. You can see this if you look at the history of the models.py and populate_tables.py files.
 
 Changes were also made to settings.py in order to add details for the LOGIN_REDIRECT_URL = '/' and LOGOUT_REDIRECT_URL = '/' so that they wouldn't default to the one for admin. With this in place, then new login and logout templates could be used, and people would end up at a suitable page after the process.
 
-The registration and login approaches were borrowed from https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/Authentication, which cover lots of useful materials.
+The registration and login approaches were borrowed from https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/Authentication, which cover lots of useful materials. Do look at these for more options that you might find useful too.
 
 ### The Payment System 
-This uses sessions to put items into a basket, which can be seen via 'Basket' link, and then shifted to 'Purchase' with user details. A value object holds items in basket for moving through to payments. After purchase the basket is cleared.
+This uses sessions to put items into a basket, which can be seen via 'Basket' link, and then shifted to 'Purchase' with user details. A value object holds items in basket for moving through to payments. After purchase the basket is cleared. Quantity is added here instead of to the products model, to avoid any confusion about overall stock quantities, which would be the value in the product model.
 
 A better version would allow customers to remove items from the basket, and to specify their shipping address.
 
 The payment retrieves the logged in person's details for the form, and then creates an order. A person needs an account before they can see the payment page.
 
-## There is still more to do with this
-This still needs more work. There is currently no way to set up admin users, other than using the admin system to change users to 'staff' who could then see a dashboard of orders, and not just anyone.
-A better version would only allow staff to remove and edit the products.
+### There is still more to do with this
+This still needs more work. There is currently no way to set up admin users, other than using the admin system to change users to 'staff', who could then see a dashboard of orders, and customers. The dashboard that's there is a placeholder, which only 'is_staff' can see. You can look at this other repo for ideas of how to add visuals to it https://github.com/scharlau/polar_bears_django_visuals based on what you find interesting.
 
-The permissions and authentication needs work to enable the above. From there more could be done, using the is_staff boolean, or the is_suiperuser one detailed at https://docs.djangoproject.com/en/3.1/ref/contrib/auth/ to show a dashboard.
+A better version would only allow staff to remove and edit the products too. Ideally, there should be more tests too. It would've made developing these extra parts easier if tests showed where the pages 'broke' as parts were added.
 Oh, and the stuff from faker adds extra characters, which is a pain. Those need to be cleaned up.
 
-
-### The Exercises
+## The Exercises
 
 1. Round one should be fixing the order_detail.html page to show names of items and customers, who placed the order. If you have time, then you can also fix the customer_details.html page to show the customer's orders, and let them click through to the order_details.html page.
 2. Round two should be creating a 'dashboard' page to show the total value of orders placed by customers.
