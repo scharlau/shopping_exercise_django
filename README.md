@@ -1,6 +1,8 @@
 # A Shopping Exercise in Python with Django
 A Python Django driven shopping example for deliberate practice
 
+Django follows a model-view-controller architecture so that you can put code in a 'good' place for reuse. However, in Django the names are different. Models are models, views in Django are controllers, and it uses templates as views. Remember this as we go forward and it will help to keep things clearer.
+
 This is NOT a proper shopping site, but the back end of what one could be. It has some of the authentication and security aspects that you'd expect using what's available in Django. The current implementation probably needs more refinement, but works as a starting point for an example. The purpose of this is to let you explore how you retrieve and display the information that you want to show on the pages of the site.
 
 The goal of 'deliberate practice' is to think about how you'd solve this challenge, and to work at developing code to make this work. There is no single 'correct' version of this code. The purpose of the exercise it become familiar with different ways of making the application work. You should explore how this simple application is done in Django so that you understand how variables in views are show up in the templates you see in the browser.
@@ -35,18 +37,6 @@ You should now be able to populate the tables with the command:
 
 Then you can start the server to see it running. 
 
-##  Doing the Work
-
-Work through the three rounds with a partner, or on your own, depending upon your circumstances. Each round should be twelve minutes, followed by a discussion of where you are and what has been working, as well as, what you're working on next.
-
-You may want to refer to the shop/models.py file to understand the database schema before you get started. Some of you might even want to diagram the schema. 
-
-You might also want to spend a few minutes at the start of each round planning what you might want to do.
-
-You'll see that this version works with the objects in the shop/models.py file to manipulate the data we display on the page. This means we've mostly abstracted away the SQL, and are working with objects for our queries and the dislay of results.
-
-There are some forms here for the products. These add the basic CRUD methods (create, read, update and delete). You could add similar ones for other objects.
-
 # Updated Features
 Following the basic start of this repo, I saw the need to modify it for use to serve a few more situations. To that end it now also represents an example of working with BDD style testing using Behave, and there is a discussion about the changes made to enable authentication, which wasn't originally included.
 
@@ -54,17 +44,11 @@ Following the basic start of this repo, I saw the need to modify it for use to s
 This adds driver directory, and features, with steps directory.
 We can now add the testing library Behave, along with Selenium for and the appropriate web drivers for your system, which you can find at https://selenium-python.readthedocs.io/installation.html#drivers Then put the binary at driver/chromedriver in your app, as you see in the repo. 
 
-If you're on a Mac, then you will need to remove the chrome driver from quarantine with the command
-
-        xattr -d com.apple.quarantine <name-of-executable>
-
-as found and detailed at https://stackoverflow.com/questions/60362018/macos-catalinav-10-15-3-error-chromedriver-cannot-be-opened-because-the-de 
-
 You might want to look at the documentation for Behave https://behave.readthedocs.io/en/latest/ 
 You should look at Selenium documentation for [navigating web pages] (https://www.selenium.dev/selenium/docs/api/py/webdriver_remote/selenium.webdriver.remote.webdriver.html#module-selenium.webdriver.remote.webdriver)
 
 #### Codio options for Behave
-If doing this on Codio, then you can add the chromedriver as follows, first before downloading the driver:
+If doing this on Codio, then you can add the chromedriver as follows from the command line before downloading the driver:
 Open a terminal and install the chromium browser with the command:
 
         sudo apt-get install -y chromium-browser
@@ -75,8 +59,15 @@ This will install the browser plus its required libraries. If that still shows m
 
 This should now give you chrome. You now can look over the install log in the terminal to see which version number of the chromedriver that you need to install in the driver folder.
 
+#### Mac OS options for Behave
+If you're on a Mac, then you will need to remove the chrome driver from quarantine with the command
+
+        xattr -d com.apple.quarantine <name-of-executable>
+
+as found and detailed at https://stackoverflow.com/questions/60362018/macos-catalinav-10-15-3-error-chromedriver-cannot-be-opened-because-the-de 
+
 ## Changing the database
-In order to add authentication based on the built-in User model of DJango, the database needed to be migrated, and as it's using sqlite3, it got in a tangle, The steps on how to reset migrations using scenario 1 at https://simpleisbetterthancomplex.com/tutorial/2016/07/26/how-to-reset-migrations.html along with documentation on the manage.py commands. You can avoid this by setting up your application using the User model from the beginning as set our below.
+In order to add authentication based on the built-in User model of DJango, the database needed to be migrated, and as it's using sqlite3, it got in a tangle, This includes steps on how to reset migrations using scenario 1 at https://simpleisbetterthancomplex.com/tutorial/2016/07/26/how-to-reset-migrations.html along with documentation on the manage.py commands. You can avoid this by setting up your application using the User model from the beginning as set our below.
 
 ### Customers and Staff members
 Build on the django User model detailed at https://docs.djangoproject.com/en/3.1/ref/contrib/auth/#django.contrib.auth.models.User which will be all members, and 'staff' will have 'is_staff' set to True. See also https://docs.djangoproject.com/en/3.1/topics/auth/default/ for details.
@@ -100,6 +91,17 @@ This still needs more work. There is currently no way to set up admin users, oth
 
 A better version would only allow staff to remove and edit the products too. Ideally, there should be more tests too. It would've made developing these extra parts easier if tests showed where the pages 'broke' as parts were added.
 Oh, and the stuff from faker adds extra characters, which is a pain. Those need to be cleaned up.
+
+##  Doing the Work
+Work through the three rounds with a partner, or on your own, depending upon your circumstances. Each round should be twelve minutes, followed by a discussion of where you are and what has been working, as well as, what you're working on next.
+
+You may want to refer to the shop/models.py file to understand the database schema before you get started. Some of you might even want to diagram the schema. 
+
+You might also want to spend a few minutes at the start of each round planning what you might want to do.
+
+You'll see that this version works with the objects in the shop/models.py file to manipulate the data we display on the page. This means we've mostly abstracted away the SQL, and are working with objects for our queries and the dislay of results.
+
+There are some forms here for the products. These add the basic CRUD methods (create, read, update and delete). You could add similar ones for other objects.
 
 ## The Exercises
 
