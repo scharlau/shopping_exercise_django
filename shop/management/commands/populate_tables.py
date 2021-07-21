@@ -28,10 +28,14 @@ class Command(BaseCommand):
         fake = Faker()
 
         # create some customers
+        # we convert some values from tuples to strings
         for i in range(10):
             first_name = fake.first_name(),
+            first_name = str(first_name[0])
             last_name = fake.last_name(),
+            last_name = str(last_name[0])
             username = first_name + last_name,
+            username = username[0]
             user = User.objects.create_user(
             username = username,
             first_name = first_name,
@@ -40,6 +44,7 @@ class Command(BaseCommand):
             password = 'p@ssw0rd')
             customer = Customer.objects.get(user = user)
             customer.address = fake.address(),
+            customer.address = str(customer.address[0])
             customer.save()
 
         # create some products
