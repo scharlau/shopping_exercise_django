@@ -16,6 +16,7 @@ class SignUpForm(UserCreationForm):
         'address', 'first_name', 'last_name', )
 
 class ProductForm (forms.ModelForm):
+    name= forms.CharField(max_length=200)
 
     class Meta:
         model = Product
