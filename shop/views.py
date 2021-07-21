@@ -3,8 +3,9 @@ from django.utils import timezone
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
+from django.http import HttpResponse
 from .models import Cart, Customer, LineItem, Order, Product
-from .forms import ProductForm, SignUpForm
+from .forms import LoginForm, ProductForm, SignUpForm
 
 
 class Basket:
@@ -62,6 +63,25 @@ def dashboard(request):
         return render(request, 'shop/dashboard.html')
     else:
         return redirect('accounts/login.html')
+
+def user_login(request):
+    if request.method == 'POST':
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            cd = form.cleaned_data
+            user = authenticate(request, username=cd['username'], password=cd['password']
+            )
+            if user is not None:
+                if user.is_active:
+                    login(request, user)
+                    return HttpResponse('Authenticated successfully')
+                else:
+                    return HttpResponse('Disabled Account')
+            else:
+                return HttpResponse('Invalid login')
+        else:
+            form = LoginForm()
+        return render(request, 'registration/login.html', {'form': form})
 
 def order_list(request):
     orders = Order.objects.all()
