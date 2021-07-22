@@ -1,11 +1,9 @@
 from django.shortcuts import redirect, render, get_object_or_404
-from django.utils import timezone
 from django.contrib.auth import login, authenticate
-from django.contrib.auth.models import User
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
-from .models import Cart, Customer, LineItem, Order, Product
-from .forms import LoginForm, ProductForm, SignUpForm
+from shop.models import Cart, LineItem, Order, Product
+from shop.forms import LoginForm, SignUpForm
 
 
 class Basket:
@@ -49,20 +47,13 @@ def signup(request):
         return redirect('/')
     return render(request, 'signup.html', {'form': form})
 
-def customer_list(request):
-    users = User.objects.all()
-    return render(request, 'shop/customer_list.html', {'users' : users})
-
-def customer_detail(request, id):
-    user = get_object_or_404(User, id=id)
-    return render(request, 'shop/customer_detail.html', {'user' : user})
-
+@login_required
 def dashboard(request):
     user = request.user
     if user.is_authenticated & user.is_staff:
         return render(request, 'shop/dashboard.html')
     else:
-        return redirect('accounts/login.html')
+        return redirect('/accounts/login.html')
 
 def user_login(request):
     if request.method == 'POST':
@@ -83,16 +74,15 @@ def user_login(request):
             form = LoginForm()
         return render(request, 'registration/login.html', {'form': form})
 
-def order_list(request):
-    orders = Order.objects.all()
-    return render(request, 'shop/order_list.html', {'orders' : orders})
 
-def order_detail(request, id):
-    order = get_object_or_404(Order, id=id)
-    customer = order.customer
-    user = get_object_or_404(User, id=customer.pk)
-    line_items = LineItem.objects.filter(order_id=order.id)
-    return render(request, 'shop/order_detail.html', {'order' : order, 'user': user, 'line_items': line_items})
+def product_buy(request):
+    if request.method== "POST":
+        temp_id = int(request.POST.get('id',''))
+        quantity = int(request.POST.get('quantity', ''))
+        basket = request.session['basket']
+        basket.append([temp_id,quantity])
+        request.session['basket'] = basket
+    return redirect('product_list')
 
 # save order, clear basket and thank customer
 def payment(request):
@@ -109,60 +99,6 @@ def payment(request):
 
     request.session['basket'].clear()
     request.session['deleted'] = 'thanks for your purchase'
-    return redirect('product_list' )
-
-def product_buy(request):
-    if request.method== "POST":
-        temp_id = int(request.POST.get('id',''))
-        quantity = int(request.POST.get('quantity', ''))
-        basket = request.session['basket']
-        basket.append([temp_id,quantity])
-        request.session['basket'] = basket
-    return redirect('product_list')
-
-def product_list(request):
-    products = Product.objects.all()
-    basket = request.session.get('basket', [])
-    request.session['basket'] = basket 
-    deleted = request.session.get('deleted', 'empty')
-    request.session['deleted'] = 'hello'
-    
-    return render(request, 'shop/product_list.html', {'products' : products, 'deleted': deleted })
-
-def product_detail(request, id):
-    product = get_object_or_404(Product, id=id)
-    return render(request, 'shop/product_detail.html', {'product' : product})
-
-def product_new(request):
-    if request.method=="POST":
-        form = ProductForm(request.POST)
-        if form.is_valid():
-            product = form.save(commit=False)
-            product.created_date = timezone.now()
-            product.save()
-            return redirect('product_detail', id=product.id)
-    else:
-        form = ProductForm()
-    return render(request, 'shop/product_edit.html', {'form': form})
-
-def product_edit(request, id):
-    product = get_object_or_404(Product, id=id)
-    if request.method=="POST":
-        form = ProductForm(request.POST, instance=product)
-        if form.is_valid():
-            product = form.save(commit=False)
-            product.created_date = timezone.now()
-            product.save()
-            return redirect('product_detail', id=product.id)
-    else:
-        form = ProductForm(instance=product)
-    return render(request, 'shop/product_edit.html', {'form': form})
-
-def product_delete(request, id):
-    product = get_object_or_404(Product, id=id)
-    deleted = request.session.get('deleted', 'empty')
-    request.session['deleted'] = product.name
-    product.delete()
     return redirect('product_list' )
 
 def purchase(request):
