@@ -86,13 +86,10 @@ Changes were also made to settings.py in order to add details for the LOGIN_REDI
 The registration and login approaches were borrowed from https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/Authentication, which uses the built-in AuthenticationForm https://docs.djangoproject.com/en/3.2/topics/auth/default/ of Django. The Mozilla documents cover lots of useful materials. Do look at these for more options that you might find useful too.
 
 ### The Payment System 
-This uses sessions to put items into a basket, which can be seen via 'Basket' link, and then shifted to 'Purchase' with user details. A value object holds items in basket for moving through to payments. After purchase the basket is cleared. Quantity is added here instead of to the products model, to avoid any confusion about overall stock quantities, which would be the value in the product model.
+This uses sessions to put items into a basket, which can be seen via 'Basket' link, and then shifted to 'Purchase' with user details. This is based in part on the example at https://github.com/PacktPublishing/Django-3-by-Example/tree/master/Chapter08 from a book of the same name.
 
 A key for the basket is set in settings.py, which will be unique for each shopper.
-
-A better version would allow customers to remove items from the basket, and to specify their shipping address.
-
-The payment retrieves the logged in person's details for the form, and then creates an order. A person needs an account before they can see the payment page.
+A person needs an account before they can see the payment page.
 
 ### There is still more to do with this
 This still needs more work. There is currently no way to set up admin users, other than using the admin system to change users to 'staff', who could then see a dashboard of orders, and customers. The dashboard that's there is a placeholder, which only 'is_staff' can see. You can look at this other repo for ideas of how to add visuals to it https://github.com/scharlau/polar_bears_django_visuals based on what you find interesting.
@@ -115,4 +112,4 @@ There are some forms here for the products. These add the basic CRUD methods (cr
 
 1. Round one should be fixing the order_detail.html page to show names of items and customers, who placed the order. If you have time, then you can also fix the customer_details.html page to show the customer's orders, and let them click through to the order_details.html page, which also needs more details added so customers/staff can see items.
 2. Round two should be implementing the 'dashboard' page to show the total value of orders placed by customers.
-3. Round three is making round two work when you scale up the database by changing the numbers in the loops for the hop/management/commands/populate_tables.py file to work with 50 customers and orders of 10 items per customer.
+3. Round three is adding it so that customers can see their own orders.

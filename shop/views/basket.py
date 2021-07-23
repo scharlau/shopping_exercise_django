@@ -1,11 +1,9 @@
 from decimal import Decimal
 from django.conf import settings
 from django.shortcuts import redirect, render, get_object_or_404
-from django.urls import reverse
 from django.views.decorators.http import require_POST
 from shop.models import Product
 from shop.forms import BasketAddProductForm 
-
 
 class Basket(object):
     # a data transfer object to shift items from cart to page
@@ -25,7 +23,7 @@ class Basket(object):
         Iterate over the items in the basket and get the products
         from the database.
         """
-        print(self.basket)
+        print(f'basket: { self.basket }')
         product_ids = self.basket.keys()
         # get the product objects and add them to the basket
         products = Product.objects.filter(id__in=product_ids)
@@ -33,6 +31,7 @@ class Basket(object):
         basket = self.basket.copy()
         for product in products:
             basket[str(product.id)]['product'] = product
+            basket[str(product.id)]['product_id'] = product.id
 
         for item in basket.values():
             item['price'] = Decimal(item['price'])
@@ -50,7 +49,6 @@ class Basket(object):
         Add a product to the basket or update its quantity.
         """
         product_id = str(product.id)
-        print("add")
         if product_id not in self.basket:
             self.basket[product_id] = {'quantity': 0,
                                       'price': str(product.price)}
@@ -86,10 +84,8 @@ class Basket(object):
 def basket_add(request, product_id):
     basket = Basket(request)
     product = get_object_or_404(Product, id=product_id)
-    print(f'basket_add {product.name}')
     form = BasketAddProductForm(request.POST)
     if form.is_valid():
-        print('valid form')
         cd = form.cleaned_data
         basket.add(product=product,
                  quantity=cd['quantity'],

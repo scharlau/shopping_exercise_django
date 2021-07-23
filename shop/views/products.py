@@ -4,12 +4,7 @@ from shop.forms import BasketAddProductForm, ProductForm
 from shop.models import Product
 
 def product_list(request):
-    products = Product.objects.all()
-    # basket = request.session.get('basket', [])
-    # request.session['basket'] = basket 
-    # deleted = request.session.get('deleted', 'empty')
-    # request.session['deleted'] = 'hello'
-    
+    products = Product.objects.all()    
     return render(request, 'shop/product_list.html', {'products' : products })
 
 def product_detail(request, id):

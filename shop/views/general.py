@@ -1,26 +1,9 @@
 from django.shortcuts import redirect, render, get_object_or_404
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
-from shop.models import Cart, LineItem, Order, Product
+from shop.models import Cart, Customer, LineItem, Order, Product
 from shop.forms import SignUpForm
 from shop.views import Basket
-
-# Create your views here.
-
-# convenience method as used in several methods
-# def get_basket(request):
-#     basket = request.session.get('basket', [])
-#     products = []
-#     for item in basket:
-#         product = Product.objects.get(id=item[0])
-#         basket = Basket(item[0], product.name, product.price, item[1])
-#         products.append(basket)
-#     return products
-
-# def basket(request):
-#     products = get_basket(request)
-#     return render(request, 'shop/basket.html', {'products': products})
-
 
 def signup(request):
     form = SignUpForm(request.POST)
@@ -46,39 +29,28 @@ def dashboard(request):
     else:
         return redirect('/accounts/login.html')
 
-def product_buy(request):
-    if request.method== "POST":
-        temp_id = int(request.POST.get('id',''))
-        quantity = int(request.POST.get('quantity', ''))
-        basket = request.session['basket']
-        basket.append([temp_id,quantity])
-        request.session['basket'] = basket
-    return redirect('product_list')
-
 # save order, clear basket and thank customer
 def payment(request):
-    products = Basket(request)
+    basket = Basket(request)
     user = request.user
-    order = Order.objects.create(customer=user.customer)
+    customer = get_object_or_404(Customer, user_id=user.id)
+    order = Order.objects.create(customer=customer)
     order.refresh_from_db()
-    for product in products:
-        product_item = get_object_or_404(Product, id=product.id)
-        cart = Cart.objects.create(product = product_item, quantity=product.quantity)
+    for item in basket:
+        product_item = get_object_or_404(Product, id=item['product_id'])
+        cart = Cart.objects.create(product = product_item, quantity=item['quantity'])
         cart.refresh_from_db()
-        line_iten = LineItem.objects.create(quantity=product.quantity, product=product_item, 
-        cart=cart,  order = order)
+        line_item = LineItem.objects.create(quantity=item['quantity'], product=product_item, cart=cart,  order = order)
 
-    request.session['basket'].clear()
+    basket.clear()
     request.session['deleted'] = 'thanks for your purchase'
-    return redirect('product_list' )
+    return redirect('shop:product_list' )
 
 def purchase(request):
     if request.user.is_authenticated:
        user = request.user
-       products = Basket(request)
-       total = 0
-       for product in products:
-           total += product.price * product.quantity
-       return render(request, 'shop/purchase.html', {'products': products, 'user': user, 'total': total})
+       basket = Basket(request)
+       
+       return render(request, 'shop/purchase.html', {'basket': basket, 'user': user})
     else:
         return redirect('login')
