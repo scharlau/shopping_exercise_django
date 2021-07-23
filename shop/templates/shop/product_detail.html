@@ -2,19 +2,17 @@
 {% block content %}
     <h1>Acme Shopping: Product Details</h1>
     
-    <p>Product {{ product.id }}: <a href="{% url 'product_edit' id=product.id %}">Edit</a>
+    <p>Product {{ product.id }}: <a href="{% url 'shop:product_edit' id=product.id %}">Edit</a>
       This is product {{ product.name }} which costs
       {{product.price}}. The product was added on: {{ product.created_date }} 
    </p>
    <p>
-    <form action="/product/buy/" method="post">
-       {% csrf_token %}
-       <p>Buy one for yourself</p>
-       <input type='hidden' name='id' value="{{ product.id }}">
-       <input type="number" name="quantity">
-       <input type="submit" value="Purchase">
-       </form>
+    <form action="{% url 'shop:basket_add' product.id %}" method="post">
+      {{ basket_product_form }}
+      {% csrf_token %}
+      <input type="submit" value="Add to Basket">
+    </form>
        </p>
-   <p><a href="{% url 'product_delete' id=product.id %}">Delete the product</a></p>
+   <p><a href="{% url 'shop:product_delete' id=product.id %}">Delete the product</a></p>
     {% endblock %}
     

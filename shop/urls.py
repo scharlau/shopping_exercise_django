@@ -1,13 +1,16 @@
 from django.urls import path, include
 import django.contrib.auth.urls
 from . import views
-from .views import signup
+
+app_name = 'shop'
 
 # the empty path '' becomes the 'home page
 urlpatterns = [
         path('', views.products.product_list, name='product_list'),
         path('accounts/', include('django.contrib.auth.urls')),
-        path('basket/', views.basket, name ='basket'),
+        path('basket_add/<int:product_id>/', views.basket.basket_add, name ='basket_add'),
+        path('basket_remove/<int:product_id>/', views.basket.basket_remove, name ='basket_remove'),
+        path('basket_detail/', views.basket.basket_detail, name ='basket_detail'),
         path('signup/', views.signup, name='signup'),
         path('dashboard/', views.dashboard, name='dashboard'),
         path('customer_list', views.customers.customer_list, name='customer_list'),

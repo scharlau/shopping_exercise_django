@@ -27,7 +27,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -39,6 +38,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'shop',
 ]
+
+#use this for the shoping basket/cart
+BASKET_SESSION_ID = 'basket'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

@@ -3,32 +3,24 @@ from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
 from shop.models import Cart, LineItem, Order, Product
 from shop.forms import SignUpForm
-
-
-class Basket:
-    # a data transfer object to shift items from cart to page
-    
-    def __init__(self, id, name, price, quantity):
-        self.id = id
-        self.name = name
-        self.price = price
-        self.quantity = quantity
+from shop.views import Basket
 
 # Create your views here.
 
 # convenience method as used in several methods
-def get_basket(request):
-    basket = request.session.get('basket', [])
-    products = []
-    for item in basket:
-        product = Product.objects.get(id=item[0])
-        basket = Basket(item[0], product.name, product.price, item[1])
-        products.append(basket)
-    return products
+# def get_basket(request):
+#     basket = request.session.get('basket', [])
+#     products = []
+#     for item in basket:
+#         product = Product.objects.get(id=item[0])
+#         basket = Basket(item[0], product.name, product.price, item[1])
+#         products.append(basket)
+#     return products
 
-def basket(request):
-    products = get_basket(request)
-    return render(request, 'shop/basket.html', {'products': products})
+# def basket(request):
+#     products = get_basket(request)
+#     return render(request, 'shop/basket.html', {'products': products})
+
 
 def signup(request):
     form = SignUpForm(request.POST)
@@ -65,7 +57,7 @@ def product_buy(request):
 
 # save order, clear basket and thank customer
 def payment(request):
-    products = get_basket(request)
+    products = Basket(request)
     user = request.user
     order = Order.objects.create(customer=user.customer)
     order.refresh_from_db()
@@ -83,7 +75,7 @@ def payment(request):
 def purchase(request):
     if request.user.is_authenticated:
        user = request.user
-       products = get_basket(request)
+       products = Basket(request)
        total = 0
        for product in products:
            total += product.price * product.quantity

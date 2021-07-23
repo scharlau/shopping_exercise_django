@@ -3,10 +3,47 @@
     <h1>Acme Shopping: Your Basket</h1>
     
 <h2>You have these in your basket:</h2>
-  {% for product in products %}
+ <table>
+  {% for item in basket %}
+        {% with product=item.product %}
+          <tr>
+            <td>
+              <a href="{% url 'shop:product_detail' id=product.id %}">
+              </a>
+            </td>
+            <td>{{ product.name }}</td>
+            <td>
+              <form action="{% url 'basket:basket_add' product.id %}" method="post">
+                {{ item.update_quantity_form.quantity }}
+                {{ item.update_quantity_form.override }}
+                <input type="submit" value="Update">
+                {% csrf_token %}
+              </form>
+            </td>
+            <td>
+              <form action="{% url 'basket:basket_remove' product.id %}" method="post">
+                <input type="submit" value="Remove">
+                {% csrf_token %}
+              </form>
+            </td>
+            <td class="num">${{ item.price }}</td>
+            <td class="num">${{ item.total_price }}</td>
+          </tr>
+        {% endwith %}
+      {% endfor %}
+      <tr class="total">
+        <td>Total</td>
+        <td colspan="4"></td>
+        <td class="num">${{ basket.get_total_price }}</td>
+      </tr>
+  </table>
+  <p class="text-right">
+    <a href="{% url "shop:product_list" %}" class="button
+    light">Continue shopping</a>
+    <a href="{% url "shop:product_list" %}" class="button">
+      Checkout
+    </a>
+  </p>
  
-<p>You put {{product.quantity }} of our <b> {{ product.name }} </b> which costs {{ product.price }} in your basket.</p>
-
-   {% endfor %}
-   <a href="{% url 'purchase' %}">Purchase</a>
+   <a href="{% url 'shop:purchase' %}">Purchase</a>
  {% endblock %}

@@ -81,12 +81,14 @@ The best explanation of this is at https://blog.crunchydata.com/blog/extending-d
 
 This changed the customer model so that it extended the main user model. This impacted the way the model instances are created, and how they are retrieved for display. The fields used in the templates to display the list of customer, and their detail pages, also needed modification. You can see this if you look at the history of the models.py and populate_tables.py files.
 
-Changes were also made to settings.py in order to add details for the LOGIN_REDIRECT_URL = '/' and LOGOUT_REDIRECT_URL = '/' so that they wouldn't default to the one for admin. With this in place, then new login and logout templates could be used, and people would end up at a suitable page after the process.
+Changes were also made to settings.py in order to add details for the LOGIN_REDIRECT_URL = '/' and LOGOUT_REDIRECT_URL = '/' so that they wouldn't default to the one for admin. With this in place, then new login and logout templates could be used, and people would end up at a suitable page during the login process.
 
-The registration and login approaches were borrowed from https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/Authentication, which cover lots of useful materials. Do look at these for more options that you might find useful too.
+The registration and login approaches were borrowed from https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/Authentication, which uses the built-in AuthenticationForm https://docs.djangoproject.com/en/3.2/topics/auth/default/ of Django. The Mozilla documents cover lots of useful materials. Do look at these for more options that you might find useful too.
 
 ### The Payment System 
 This uses sessions to put items into a basket, which can be seen via 'Basket' link, and then shifted to 'Purchase' with user details. A value object holds items in basket for moving through to payments. After purchase the basket is cleared. Quantity is added here instead of to the products model, to avoid any confusion about overall stock quantities, which would be the value in the product model.
+
+A key for the basket is set in settings.py, which will be unique for each shopper.
 
 A better version would allow customers to remove items from the basket, and to specify their shipping address.
 
@@ -111,6 +113,6 @@ There are some forms here for the products. These add the basic CRUD methods (cr
 
 ## The Exercises
 
-1. Round one should be fixing the order_detail.html page to show names of items and customers, who placed the order. If you have time, then you can also fix the customer_details.html page to show the customer's orders, and let them click through to the order_details.html page.
-2. Round two should be creating a 'dashboard' page to show the total value of orders placed by customers.
+1. Round one should be fixing the order_detail.html page to show names of items and customers, who placed the order. If you have time, then you can also fix the customer_details.html page to show the customer's orders, and let them click through to the order_details.html page, which also needs more details added so customers/staff can see items.
+2. Round two should be implementing the 'dashboard' page to show the total value of orders placed by customers.
 3. Round three is making round two work when you scale up the database by changing the numbers in the loops for the hop/management/commands/populate_tables.py file to work with 50 customers and orders of 10 items per customer.

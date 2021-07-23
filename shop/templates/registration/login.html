@@ -12,8 +12,8 @@
      
     {% endif %}
   {% endif %}
-  <p>Please login, or <a href = "{% url 'signup' %}">Register</a> to see this page.</p>
-  <form method="POST" action="{% url 'login' %}"> 
+  <p>Please login, or <a href = "{% url 'shop:signup' %}">Register</a> to see this page.</p>
+  <form method="POST" action="{% url 'shop:login' %}"> 
     {% csrf_token %}
     <p>
       {{ form.username.label_tag }}

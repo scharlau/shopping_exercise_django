@@ -5,12 +5,12 @@ from shop.models import Product
 
 def product_list(request):
     products = Product.objects.all()
-    basket = request.session.get('basket', [])
-    request.session['basket'] = basket 
-    deleted = request.session.get('deleted', 'empty')
-    request.session['deleted'] = 'hello'
+    # basket = request.session.get('basket', [])
+    # request.session['basket'] = basket 
+    # deleted = request.session.get('deleted', 'empty')
+    # request.session['deleted'] = 'hello'
     
-    return render(request, 'shop/product_list.html', {'products' : products, 'deleted': deleted })
+    return render(request, 'shop/product_list.html', {'products' : products })
 
 def product_detail(request, id):
     product = get_object_or_404(Product, id=id)

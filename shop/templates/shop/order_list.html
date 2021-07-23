@@ -3,7 +3,7 @@
     <h1>Order List</h1>
     
     {% for order in orders %}
-    <p>This is order <b> <a href="{% url 'order_detail' id=order.id %}">{{order.id }}</a></b> for
+    <p>This is order <b> <a href="{% url 'shop:order_detail' id=order.id %}">{{order.id }}</a></b> for
        {{order.customer.id}}. The order was placed on: {{ order.created_date }} 
     </p>
     {% endfor %}
