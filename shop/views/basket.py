@@ -1,6 +1,7 @@
 from decimal import Decimal
 from django.conf import settings
 from django.shortcuts import redirect, render, get_object_or_404
+from django.urls import reverse
 from django.views.decorators.http import require_POST
 from shop.models import Product
 from shop.forms import BasketAddProductForm 
@@ -49,6 +50,7 @@ class Basket(object):
         Add a product to the basket or update its quantity.
         """
         product_id = str(product.id)
+        print("add")
         if product_id not in self.basket:
             self.basket[product_id] = {'quantity': 0,
                                       'price': str(product.price)}
@@ -84,20 +86,22 @@ class Basket(object):
 def basket_add(request, product_id):
     basket = Basket(request)
     product = get_object_or_404(Product, id=product_id)
+    print(f'basket_add {product.name}')
     form = BasketAddProductForm(request.POST)
     if form.is_valid():
+        print('valid form')
         cd = form.cleaned_data
         basket.add(product=product,
                  quantity=cd['quantity'],
                  override_quantity=cd['override'])
-    return redirect('basket_detail')
+    return redirect('shop:basket_detail')
 
 @require_POST
 def basket_remove(request, product_id):
     basket = Basket(request)
     product = get_object_or_404(Product, id=product_id)
     basket.remove(product)
-    return redirect('basket_detail')
+    return redirect('shop:basket_detail')
 
 def basket_detail(request):
     basket = Basket(request)
