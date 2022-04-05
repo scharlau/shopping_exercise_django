@@ -27,7 +27,7 @@ We will use Django (https://www.djangoproject.com) as our web framework for the 
         
         pip install django
 
-And that will install django version 3.1.3 with its associated dependencies. We can now start to build the application.
+And that will install the latest django version with its associated dependencies. We can now start to build the application.
 
 We can now add in some random content for the shopping application using the Faker library from https://pypi.org/project/Faker/. Install Faker with the command: 
 
