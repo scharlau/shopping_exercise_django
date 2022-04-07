@@ -1,8 +1,5 @@
 # A Shopping Exercise in Python with Django
 
-This repository is a fork from https://github.com/scharlau/shopping_exercise_django, which was provided for students of the course Enterprise Software Development at the University of Aberdeen. This time, I try to implement language support on this imaginary shopping website, as most shopping websites provide the possibility to switch languages. Initially I will only do this for English and German. Also I updated links provided in the README.md, whenever I encountered outdated ones. 
-
-# Original tutorial
 A Python Django driven shopping example for deliberate practice
 
 Django follows a model-view-controller architecture so that you can put code in a 'good' place for reuse. However, in Django the names are different. Models are models, views in Django are controllers, and it uses templates as views. Remember this as we go forward and it will help to keep things clearer.
