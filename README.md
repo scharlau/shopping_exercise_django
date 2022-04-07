@@ -6,25 +6,27 @@ Django follows a model-view-controller architecture so that you can put code in 
 
 This is NOT a proper shopping site, but the back end of what one could be. It has some of the authentication and security aspects that you'd expect using what's available in Django. The current implementation probably needs more refinement, but works as a starting point for an example. The purpose of this is to let you explore how you retrieve and display the information that you want to show on the pages of the site.
 
-The goal of 'deliberate practice' is to think about how you'd solve this challenge, and to work at developing code to make this work. There is no single 'correct' version of this code. The purpose of the exercise it become familiar with different ways of making the application work. You should explore how this simple application is done in Django so that you understand how variables in views are show up in the templates you see in the browser.
+The goal of 'deliberate practice' is to think about how you'd solve this challenge, and to work at developing code to make this work. There is no single 'correct' version of this code. The purpose of the exercise is to become familiar with different ways of making the application work. You should explore how this simple application is done in Django so that you understand how variables in views are shown in the templates you see in the browser.
 
 Under 'deliberate practice' we offer up the challenge, then think about options for developing a solution, and code for 12 minutes. After that we pause to discuss how people are approaching the problem, and what they're trying to do. This should be repeated three times and then wrapped up with time for people to express what they found most useful during the session. This should take an hour.
 
 You can clone the repository for this application, and then add the required libraries, plus set up your environment. Start by cloning this repo to your own device, using either the command line, or download it as zip file. Then open a terminal in the app's directory and use the commands below to get started.
 
 ## Set up your environment
- We can start developing our application to display the data. Create a new project folder called 'shopping' and then cd into the folder via the terminal and execute these commands:
+ We can start developing our application to display the data. In Codio, create a new project folder called 'shopping' and then cd into the folder via the terminal and execute these commands:
 
         pyenv local 3.7.0 # this sets the local version of python to 3.7.0
         python3 -m venv .venv # this creates the virtual environment for you
         source .venv/bin/activate # this activates the virtual environment
         pip install --upgrade pip [ this is optional]  # this installs pip, and upgrades it if required.
 
+If you use another IDE, please check its documentation on how to setup a virtual environment.
+
 We will use Django (https://www.djangoproject.com) as our web framework for the application. We install that with 
         
         pip install django
 
-And that will install the latest django version with its associated dependencies. We can now start to build the application.
+That will install the latest django version with its associated dependencies. We can now start to build the application.
 
 We can now add in some random content for the shopping application using the Faker library from https://pypi.org/project/Faker/. Install Faker with the command: 
 
@@ -48,8 +50,8 @@ Otherwise each customer created is also a user with a default password set in th
 Following the basic start of this repo, I saw the need to modify it for use to serve a few more situations. To that end it now also represents an example of working with BDD style testing using Behave, and there is a discussion about the changes made to enable authentication, which wasn't originally included.
 
 ## Behave added for BDD
-This adds driver directory, and features, with steps directory.
-We can now add the testing library Behave, along with Selenium for and the appropriate web drivers for your system, which you can find at https://selenium-python.readthedocs.io/installation.html#drivers Then put the binary at driver/chromedriver in your app, as you see in the repo. 
+This adds driver directory and features with steps directory.
+We can now add the testing library Behave, along with Selenium and the appropriate web drivers for your system, which you can find at https://selenium-python.readthedocs.io/installation.html#drivers Then put the binary at driver/chromedriver in your app, as you see in the repo. If you use another Browser, you need to use another webdriver (e.g. geckodriver for Firefox) and adopt the environment.py accordingly.
 
 You might want to look at the documentation for Behave https://behave.readthedocs.io/en/latest/ 
 You should look at Selenium documentation for [navigating web pages] (https://www.selenium.dev/selenium/docs/api/py/webdriver_remote/selenium.webdriver.remote.webdriver.html#module-selenium.webdriver.remote.webdriver)
@@ -74,7 +76,7 @@ If you're on a Mac, then you will need to remove the chrome driver from quaranti
 as found and detailed at https://stackoverflow.com/questions/60362018/macos-catalinav-10-15-3-error-chromedriver-cannot-be-opened-because-the-de 
 
 ## Changing the database
-In order to add authentication based on the built-in User model of DJango, the database needed to be migrated, and as it's using sqlite3, it got in a tangle, This includes steps on how to reset migrations using scenario 1 at https://simpleisbetterthancomplex.com/tutorial/2016/07/26/how-to-reset-migrations.html along with documentation on the manage.py commands. You can avoid this by setting up your application using the User model from the beginning as set our below.
+In order to add authentication based on the built-in User model of Django, the database needed to be migrated, and as it's using sqlite3, it got in a tangle. This includes steps on how to reset migrations using scenario 1 at https://simpleisbetterthancomplex.com/tutorial/2016/07/26/how-to-reset-migrations.html along with documentation on the manage.py commands. You can avoid this by setting up your application using the User model from the beginning as set out below.
 
 ### Customers and Staff members
 Build on the django User model detailed at https://docs.djangoproject.com/en/4.0/ref/contrib/auth/#django.contrib.auth.models.User which will be all members, and 'staff' will have 'is_staff' set to True. See also https://docs.djangoproject.com/en/4.0/topics/auth/default/ for details.
