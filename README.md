@@ -63,7 +63,7 @@ This will install the browser plus its required libraries. If that still shows m
 
         sudo apt-get install -y libglib2.0-0 libnss3 libgconf-2-4 libfontconfig1
 
-This should now give you chrome. You now can look over the install log in the terminal to see which version number of the chromedriver that you need to install in the driver folder.
+This should now give you chrome. You now can look over the install log in the terminal to see which version number of the chromedriver that you need to install in the driver folder. However, be warned, this might not work fully in Codio, as it requires more memory and a few other components, which are not available by default in Codio.
 
 #### Mac OS options for Behave
 If you're on a Mac, then you will need to remove the chrome driver from quarantine with the command
@@ -71,6 +71,13 @@ If you're on a Mac, then you will need to remove the chrome driver from quaranti
         xattr -d com.apple.quarantine <name-of-executable>
 
 as found and detailed at https://stackoverflow.com/questions/60362018/macos-catalinav-10-15-3-error-chromedriver-cannot-be-opened-because-the-de 
+
+#### Using Behave
+You can run behave with the command 
+
+        behave
+
+Which will launch the tests in the features folder. Configure behave in the environment.py file, and put your given, when, then statement scenarios into feature files. Each of those will map to a file in the 'steps' directory, where you put the implementation details for the test.
 
 ## Changing the database
 In order to add authentication based on the built-in User model of DJango, the database needed to be migrated, and as it's using sqlite3, it got in a tangle, This includes steps on how to reset migrations using scenario 1 at https://simpleisbetterthancomplex.com/tutorial/2016/07/26/how-to-reset-migrations.html along with documentation on the manage.py commands. You can avoid this by setting up your application using the User model from the beginning as set our below.

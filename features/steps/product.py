@@ -43,6 +43,7 @@ def step_impl(context):
     base_url = urllib.request.url2pathname(context.test_case.live_server_url)
     open_url = urljoin(base_url,'/product_list')
     context.browser.get(open_url)
+    print(context.browser.page_source)
     assert 'Product List' in context.browser.page_source
 
 @then(u'we will find \'another thing\'')
