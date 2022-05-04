@@ -43,6 +43,12 @@ You will need to create a superuser as well if you want to work with the admin f
 
 Otherwise each customer created is also a user with a default password set in the management/commands/populate_tables.py file.
 
+You can launch django with the usual command:
+
+        python3 manage.py runserver
+
+As you go around the site notice what's working, what's bare-bones, and other issues. This is not finished, but a work in progress to illustrate how you might build a shopping application.
+
 # Updated Features
 Following the basic start of this repo, I saw the need to modify it for use to serve a few more situations. To that end it now also represents an example of working with BDD style testing using Behave, and there is a discussion about the changes made to enable authentication, which wasn't originally included.
 
