@@ -62,7 +62,7 @@ You should look at Selenium documentation for [navigating web pages] (https://ww
 ### Behave integration details
 If you're using Behave with Django, then you need to edit the following files:
 Create the 'features' directory to hold your <model>.feature files, with a 'steps' directory inside of that, which hold the <model>.py files to implement each item in the feature. 
-Inside 'features' should also be an environment.py file, that sets out the relevant options you're using for browser driver such as Chrome, and the before_all(), before_scenario() and such testsuite details. This should also hold relevant @fixture methods to load the test database, and set up the testing web server for you too. This runs at a different port from the normal server. 
+Inside 'features' should also be an environment.py file, that sets out the relevant options you're using for browser driver such as Chrome, and the before_all(), before_scenario() and such testsuite details. Here we are making use of Django's built in testing framework. This should also hold relevant @fixture methods to load the test database, and set up the testing web server for you too. This runs at a different port from the normal server. 
 Your <model>.py step files will need to point to your test server. You can grab the base_url with some lines like this:
 
         import urllib
