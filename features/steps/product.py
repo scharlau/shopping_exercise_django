@@ -1,8 +1,6 @@
 import urllib
-from urllib.parse import urljoin, urlparse
-from behave import given, when, then, model
-from django.conf import settings
-from django.shortcuts import resolve_url
+from urllib.parse import urljoin
+from behave import given, when, then
 
 @given( "we want to add a product")
 def user_on_product_newpage(context):

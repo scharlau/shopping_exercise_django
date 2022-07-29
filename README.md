@@ -56,8 +56,52 @@ Following the basic start of this repo, I saw the need to modify it for use to s
 This adds driver directory, and features, with steps directory.
 We can now add the testing library Behave, along with Selenium for and the appropriate web drivers for your system, which you can find at https://selenium-python.readthedocs.io/installation.html#drivers Then put the binary at driver/chromedriver in your app, as you see in the repo. 
 
-You might want to look at the documentation for Behave https://behave.readthedocs.io/en/latest/ 
+You might want to look at the documentation for Behave https://behave.readthedocs.io/en/latest/ for more about how to use it.
 You should look at Selenium documentation for [navigating web pages] (https://www.selenium.dev/selenium/docs/api/py/webdriver_remote/selenium.webdriver.remote.webdriver.html#module-selenium.webdriver.remote.webdriver)
+
+### Behave integration details
+If you're using Behave with Django, then you need to edit the following files:
+Create the 'features' directory to hold your <model>.feature files, with a 'steps' directory inside of that, which hold the <model>.py files to implement each item in the feature. 
+Inside 'features' should also be an environment.py file, that sets out the relevant options you're using for browser driver such as Chrome, and the before_all(), before_scenario() and such testsuite details. This should also hold relevant @fixture methods to load the test database, and set up the testing web server for you too. This runs at a different port from the normal server. 
+Your <model>.py step files will need to point to your test server. You can grab the base_url with some lines like this:
+
+        import urllib
+        from urllib.parse import urljoin
+        from behave import given, when, then
+
+        @given( "we want to add a product")
+        def user_on_product_newpage(context):
+           base_url = urllib.request.url2pathname(context.test_case.live_server_url)
+           print(base_url)
+           open_url = urljoin(base_url,'/product_new/')
+           context.browser.get(open_url)
+
+As you can see we're pushing the limits of chaining methods, but this works without you having to hard code any paths. We print the base_url only to confirm that it's what we expect it to be for debugging, and can be commented out when running smoothly.
+
+The other useful step is to create a fixture table in the feature file, which we access in the step file. For example, we can use this in the product.feature file:
+
+    Scenario: adding products
+        Given we have specific products to add
+        | name          | price  |
+        | this one      | 23.45  |
+        | another thing | 34.56  |
+        When we visit the listing page
+        Then we will find 'another thing'
+
+And then iterate through the items to load them into a form in the step file like this:
+
+    open_url = urljoin(base_url,'/product_new/')
+    for row in context.table:
+        context.browser.get(open_url)
+        name_textfield = context.browser.find_element_by_name('name')
+        name_textfield.send_keys(row['name'])
+        price_textfield = context.browser.find_element_by_name('price')
+        price_textfield.send_keys(row['price'])
+        context.browser.find_element_by_name('submit').click()
+        assert row['name'] in context.browser.page_source
+
+This will iteratively load and submit each item in the feature file.
+A nice and easy way to test integration, and load data into the database for testing in a scenario.
 
 #### Codio options for Behave
 If doing this on Codio, then you can add the chromedriver as follows from the command line before downloading the driver:
