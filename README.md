@@ -2,7 +2,10 @@
 A Python Django driven shopping example for deliberate practice
 
 **********
+
 Ignore this one. It is messy. Go here instead: https://github.com/scharlau/shopping_with_django 
+
+**********
 
 Django follows a model-view-controller architecture so that you can put code in a 'good' place for reuse. However, in Django the names are different. Models are models, views in Django are controllers, and it uses templates as views. Remember this as we go forward and it will help to keep things clearer.
 
