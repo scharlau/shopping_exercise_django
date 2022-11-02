@@ -1,6 +1,9 @@
 # A Shopping Exercise in Python with Django
 A Python Django driven shopping example for deliberate practice
 
+**********
+Ignore this one. It is messy. Go here instead: https://github.com/scharlau/shopping_with_django 
+
 Django follows a model-view-controller architecture so that you can put code in a 'good' place for reuse. However, in Django the names are different. Models are models, views in Django are controllers, and it uses templates as views. Remember this as we go forward and it will help to keep things clearer.
 
 This is NOT a proper shopping site, but the back end of what one could be. It has some of the authentication and security aspects that you'd expect using what's available in Django. The current implementation probably needs more refinement, but works as a starting point for an example. The purpose of this is to let you explore how you retrieve and display the information that you want to show on the pages of the site.
